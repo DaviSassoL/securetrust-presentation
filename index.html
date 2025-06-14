@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureTrust | Detecção de Fraudes com Engenharia de Dados</title>
+  <meta name="description" content="Apresentação interativa sobre pipeline de dados para detecção de fraudes financeiras." />
+
+  <!-- TailwindCSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React + ReactDOM via CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- Framer Motion via CDN -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <div id="root"></div>
+
+  <script type="text/javascript">
+    const { motion, AnimatePresence } = window['framer-motion'];
+    const { useState } = React;
+
+    const slides = [
+      {
+        title: 'SecureTrust',
+        subtitle: 'Engenharia de Dados para Detecção de Fraudes Financeiras',
+        description: 'Fraudes financeiras podem ocorrer em segundos. Nosso desafio: detectar padrões fraudulentos antes que causem prejuízo.',
+        bg: 'from-black via-gray-900 to-gray-800',
+      },
+      {
+        title: 'O Problema',
+        subtitle: 'Fraudes em Transações Digitais',
+        description: 'Perdas financeiras recorrentes, segurança comprometida e resposta lenta. Era preciso agir com dados e inteligência.',
+        bg: 'from-red-900 via-black to-gray-900',
+      },
+      {
+        title: 'Objetivo do Projeto',
+        subtitle: 'Solução Preditiva com Governança',
+        description: 'Criar pipeline de ingestão, tratamento, exposição e visualização de dados com foco em ML e BI.',
+        bg: 'from-purple-900 via-black to-gray-800',
+      },
+      {
+        title: 'Arquitetura do Pipeline',
+        subtitle: 'Camadas Bronze, Silver, Gold',
+        description: 'Visão geral das camadas de dados: RAW no S3, tratamento no Glue e consultas via Athena.',
+        image: 'arquitetura-projeto-times.jpeg',
+        bg: 'from-blue-900 via-black to-gray-900',
+      },
+      {
+        title: 'Modelagem com XGBoost',
+        subtitle: 'Machine Learning Supervisionado',
+        description: 'Recall: 92%, AUC ROC: 0.97, Falsos Positivos: 5% (meta <3%) e precisão de 89%.',
+        bg: 'from-yellow-900 via-black to-gray-800',
+      },
+      {
+        title: 'Dashboards Interativos',
+        subtitle: 'Power BI e Visualizações',
+        description: 'KPIs dinâmicos, heatmaps, filtros por canal, dispositivo, região e perfil de cliente.',
+        bg: 'from-red-700 via-black to-gray-900',
+      },
+      {
+        title: 'Conclusão',
+        subtitle: 'Prontos para Escalar',
+        description: 'Pipeline robusto, governado e escalável. Próximos passos: nuvem, imputação e dashboards automáticos.',
+        bg: 'from-gray-800 via-black to-indigo-800',
+      },
+      {
+        title: 'Próximos Passos & Agradecimentos',
+        subtitle: 'Obrigado!',
+        description: 'Dúvidas? Entre em contato: Davi Sasso, Rodrigo Alex, Victor Barradas.',
+        bg: 'from-purple-800 via-black to-gray-900',
+      },
+    ];
+
+    function Presentation() {
+      const [index, setIndex] = useState(0);
+      const next = () => setIndex((i) => (i + 1) % slides.length);
+      const prev = () => setIndex((i) => (i - 1 + slides.length) % slides.length);
+
+      const slide = slides[index];
+
+      return React.createElement(
+        'div',
+        { className: `min-h-screen flex items-center justify-center px-6 py-10 bg-gradient-to-br ${slide.bg} transition-all duration-700` },
+        React.createElement(
+          AnimatePresence,
+          { exitBeforeEnter: true },
+          React.createElement(
+            motion.div,
+            {
+              key: index,
+              initial: { opacity: 0, y: 30 },
+              animate: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: -30 },
+              transition: { duration: 0.6 },
+              className: 'max-w-2xl text-center',
+            },
+            React.createElement('h1', { className: 'text-4xl font-bold mb-2 text-white' }, slide.title),
+            React.createElement('h2', { className: 'text-xl font-semibold text-purple-300 mb-4' }, slide.subtitle),
+            React.createElement('p', { className: 'text-white mb-6 leading-relaxed' }, slide.description),
+            slide.image &&
+              React.createElement('img', {
+                src: slide.image,
+                alt: 'Ilustração do Slide',
+                className: 'mx-auto mb-6 rounded-lg shadow-lg max-h-72',
+              }),
+            React.createElement(
+              'div',
+              { className: 'flex justify-center space-x-4' },
+              React.createElement(
+                'button',
+                {
+                  onClick: prev,
+                  className: 'px-5 py-2 border-2 border-white rounded-full hover:bg-white hover:text-black transition',
+                },
+                'Anterior'
+              ),
+              React.createElement(
+                'button',
+                {
+                  onClick: next,
+                  className: 'px-5 py-2 border-2 border-white rounded-full hover:bg-white hover:text-black transition',
+                },
+                'Próximo'
+              )
+            )
+          )
+        )
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(Presentation));
+  </script>
+</body>
+</html>
